@@ -1,10 +1,14 @@
 # Ahoy.Proto.MessagePack
 MessagePack serializer for Proto.Actor.
 
-# Installation
+Uses https://github.com/neuecc/MessagePack-CSharp library for serialization.
+
+MessagePack + Proto.Actor = 🚀🚀🚀
+
+## Installation
 Install `Ahoy.Proto.MessagePack` nuget package.
 
-# How to use
+## How to use
 ```csharp
 ActorSystem actorSystem = new();
 actorSystem.Serialization().RegisterSerializer(
@@ -17,7 +21,16 @@ actorSystem.Serialization().RegisterSerializer(
       ProtoMessagePackSerializer.ScanAssemblyForTypes(Assembly.GetExecutingAssembly())));
 ```
 
-# How to use MessagePack structs from multiple assemblies?
+## Built-in supported types
+It supports all the types neucc's MessagePack-CSharp (https://github.com/neuecc/MessagePack-CSharp#built-in-supported-types) supports.
+On top of that it adds the following resolvers automatically:
+- ImmutableCollectionResolver
+- NativeDateTimeResolver
+- NativeGuidResolver
+
+It also automatically adds an internal resolver: ProtoActorResolver. This adds support for the `PID` and `ClusterIdentity` types.
+
+## How to use MessagePack structs from multiple assemblies?
 Create ProtoMessagePackSerializer as such:
 ```csharp
 new ProtoMessagePackSerializer(
@@ -27,7 +40,7 @@ new ProtoMessagePackSerializer(
   ProtoMessagePackSerializer.ScanAssemblyForTypes(Assembly.GetAssembly(typeof(MyType)));
 ```
 
-# How to define message pack objects?
+## How to define message pack objects?
 Must add `[MessagePackId(0)]` attribute instead of `[MessagePackObject]` attribute.
 ```csharp
 [MessagePackId(0)]
@@ -89,7 +102,7 @@ public static class RoomActorMessages
 }
 ```
 
-# How to use it together with Ahoy.MessagePack.Thrift or Ahoy.MessagePack.Protobuf
+## How to use it together with Ahoy.MessagePack.Thrift or Ahoy.MessagePack.Protobuf
 Install `Ahoy.MessagePack.Thrift` and/or `Ahoy.MessagePack.Protobuf` nuget packages.
 
 ```csharp
@@ -112,7 +125,7 @@ actorSystem.Serialization().RegisterSerializer(
   ));
 ```
 
-# How to use Ahoy.MessagePack.NewtonsoftJson or Ahoy.MessagePack.SystemJson
+## How to use Ahoy.MessagePack.NewtonsoftJson or Ahoy.MessagePack.SystemJson
 Install `Ahoy.MessagePack.NewtonsoftJson` and/or `Ahoy.MessagePack.SystemJson` nuget packages.
 
 ```csharp
