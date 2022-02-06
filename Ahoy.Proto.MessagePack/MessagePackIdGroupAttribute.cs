@@ -1,7 +1,7 @@
 ﻿using MessagePack;
 using System;
 
-namespace Proto.Serializer.MessagePack
+namespace Ahoy.Proto.MessagePack
 {
     /// <summary>
     /// The value given to this attribute is added to all classes with MessagePackIdAttribute attribute underneath it.

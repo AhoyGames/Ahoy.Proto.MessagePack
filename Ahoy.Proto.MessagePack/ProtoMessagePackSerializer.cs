@@ -13,7 +13,7 @@ using System.Threading;
 using IFormatterResolver = global::MessagePack.IFormatterResolver;
 using MessagePackSerializer = global::MessagePack.MessagePackSerializer;
 
-namespace Proto.Serializer.MessagePack
+namespace Ahoy.Proto.MessagePack
 {
     public class ProtoMessagePackSerializer : ISerializer
     {
@@ -103,9 +103,6 @@ namespace Proto.Serializer.MessagePack
 
         public bool CanSerialize(object obj)
         {
-            if (obj is IMsgPackObject)
-                return true;
-
             var type = obj.GetType();
             bool canSerialize;
             if (canSerializeTypeMap.TryGetValue(type, out canSerialize))

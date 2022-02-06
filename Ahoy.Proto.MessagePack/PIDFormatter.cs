@@ -1,7 +1,8 @@
 ﻿using MessagePack;
 using MessagePack.Formatters;
+using Proto;
 
-namespace Proto.Serializer.MessagePack
+namespace Ahoy.Proto.MessagePack
 {
     // PID Formatter.
     public class PIDFormatter : IMessagePackFormatter<PID>

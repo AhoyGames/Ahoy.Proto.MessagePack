@@ -2,7 +2,7 @@
 using MessagePack.Formatters;
 using System.Text.Json;
 
-namespace Ahoy.MessagePackJsonFormatters
+namespace Ahoy.MessagePack.SystemJson
 {
     /// <summary>
     /// Serializes given value using System.Text.Json library.

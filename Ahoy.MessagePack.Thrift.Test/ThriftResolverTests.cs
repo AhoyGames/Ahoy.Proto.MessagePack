@@ -1,4 +1,4 @@
-﻿using Ahoy.ProtoMessagePackThriftSupport;
+﻿using Ahoy.MessagePack.Thrift;
 using HttpServiceData.Leaderboards;
 using MessagePack;
 using MessagePack.Resolvers;

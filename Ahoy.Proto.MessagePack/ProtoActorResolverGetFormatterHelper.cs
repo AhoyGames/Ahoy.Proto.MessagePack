@@ -1,8 +1,9 @@
-﻿using Proto.Cluster;
+﻿using Proto;
+using Proto.Cluster;
 using System;
 using System.Collections.Generic;
 
-namespace Proto.Serializer.MessagePack
+namespace Ahoy.Proto.MessagePack
 {
     internal static class ProtoActorResolverGetFormatterHelper
     {

@@ -1,10 +1,10 @@
 ﻿using MessagePack;
-using Proto.Serializer.MessagePack;
+using Ahoy.Proto.MessagePack;
 
-namespace Proto.Serializer.MessagePackTest
+namespace Ahoy.Proto.MessagePackTest
 {
     [MessagePackId(1)]
-    public class TestMsgPack1 : IMsgPackObject
+    public class TestMsgPack1
     {
         [Key(1)]
         public string? Name { get; init; }
@@ -40,7 +40,7 @@ namespace Proto.Serializer.MessagePackTest
     public static class MessagePackIdGroupTest1
     {
         [MessagePackId(1)]
-        public class TestMsgPack1 : IMsgPackObject
+        public class TestMsgPack1
         {
             [Key(1)]
             public string? Name { get; init; }
@@ -55,7 +55,7 @@ namespace Proto.Serializer.MessagePackTest
     public static class MessagePackIdGroupTest2
     {
         [MessagePackId(1)]
-        public class TestMsgPack1 : IMsgPackObject
+        public class TestMsgPack1
         {
             [Key(1)]
             public string? Name { get; init; }

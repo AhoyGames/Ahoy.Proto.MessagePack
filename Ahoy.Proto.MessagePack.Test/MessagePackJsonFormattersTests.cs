@@ -1,12 +1,14 @@
-﻿using Ahoy.MessagePackJsonFormatters;
-using MessagePack;
+﻿using MessagePack;
 using Newtonsoft.Json;
 using NUnit.Framework;
-using Proto.Serializer.MessagePack;
+using Ahoy.Proto.MessagePack;
 using System;
 using System.Collections.Generic;
+using Ahoy.MessagePack.NewtonsoftJson;
+using Ahoy.MessagePack.SystemJson;
+using Proto;
 
-namespace Proto.Serializer.MessagePackTest
+namespace Ahoy.Proto.MessagePackTest
 {
     public class MessagePackJsonFormattersTests
     {

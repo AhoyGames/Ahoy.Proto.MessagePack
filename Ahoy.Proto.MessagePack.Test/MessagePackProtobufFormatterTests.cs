@@ -1,10 +1,10 @@
 ﻿using MessagePack;
 using NUnit.Framework;
 using Messages;
-using Ahoy.MessagePackProtobufFormatter;
 using MessagePack.Resolvers;
+using Ahoy.MessagePack.Protobuf;
 
-namespace Proto.Serializer.MessagePackTest
+namespace Ahoy.Proto.MessagePackTest
 {
     public class MessagePackProtobufFormatterTests
     {

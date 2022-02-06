@@ -1,7 +1,7 @@
 ﻿using MessagePack;
 using System;
 
-namespace Proto.Serializer.MessagePack
+namespace Ahoy.Proto.MessagePack
 {
     /// <summary>
     /// Defines the ID used to identify this type when serialized via Proto.Serializer.

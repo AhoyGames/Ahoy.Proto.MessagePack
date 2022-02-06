@@ -1,7 +1,7 @@
 ﻿using MessagePack.Formatters;
 using IFormatterResolver = global::MessagePack.IFormatterResolver;
 
-namespace Proto.Serializer.MessagePack
+namespace Ahoy.Proto.MessagePack
 {
     public class ProtoActorResolver : IFormatterResolver
     {

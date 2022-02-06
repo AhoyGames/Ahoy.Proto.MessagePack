@@ -1,8 +1,8 @@
 ﻿using NUnit.Framework;
-using Proto.Serializer.MessagePack;
+using Ahoy.Proto.MessagePack;
 using System.Reflection;
 
-namespace Proto.Serializer.MessagePackTest
+namespace Ahoy.Proto.MessagePackTest
 {
     public class MessagePackSerializerTests
     {

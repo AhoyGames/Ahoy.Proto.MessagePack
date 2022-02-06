@@ -3,7 +3,7 @@ using MessagePack;
 using MessagePack.Formatters;
 using System.Buffers;
 
-namespace Ahoy.MessagePackProtobufFormatter
+namespace Ahoy.MessagePack.Protobuf
 {
     public class ProtobufFormatter<T> : IMessagePackFormatter<T> where T : class, IMessage<T>, new()
     {

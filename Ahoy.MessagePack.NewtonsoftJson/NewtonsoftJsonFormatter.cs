@@ -2,7 +2,7 @@
 using MessagePack.Formatters;
 using Newtonsoft.Json;
 
-namespace Ahoy.MessagePackJsonFormatters
+namespace Ahoy.MessagePack.NewtonsoftJson
 {
     /// <summary>
     /// Serializes given value using Newtonsoft.Json library.

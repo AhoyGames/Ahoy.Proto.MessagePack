@@ -4,7 +4,7 @@ using System.Buffers;
 using Thrift.Protocol;
 using Thrift.Transport;
 
-namespace Ahoy.ProtoMessagePackThriftSupport
+namespace Ahoy.MessagePack.Thrift
 {
     public class ThriftFormatter<T> : IMessagePackFormatter<T> where T : class, TBase, new()
     {

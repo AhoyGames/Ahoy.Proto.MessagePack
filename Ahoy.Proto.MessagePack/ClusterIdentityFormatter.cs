@@ -2,7 +2,7 @@
 using MessagePack.Formatters;
 using Proto.Cluster;
 
-namespace Proto.Serializer.MessagePack
+namespace Ahoy.Proto.MessagePack
 {
     // ClusterIdentity Formatter.
     public class ClusterIdentityFormatter : IMessagePackFormatter<ClusterIdentity>
