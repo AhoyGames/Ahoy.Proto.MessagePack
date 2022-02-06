@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>10.0</LangVersion>
+    <ImplicitUsings>true</ImplicitUsings>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
+    <PackageReference Include="NUnit" Version="3.13.2" />
+    <PackageReference Include="Grpc.Tools" Version="2.43.0" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ahoy.MessagePack.NewtonsoftJson\Ahoy.MessagePack.NewtonsoftJson.csproj" />
+    <ProjectReference Include="..\Ahoy.MessagePack.SystemJson\Ahoy.MessagePack.SystemJson.csproj" />
+    <ProjectReference Include="..\Ahoy.MessagePack.Protobuf\Ahoy.MessagePack.Protobuf.csproj" />
+    <ProjectReference Include="..\Ahoy.MessagePack.Thrift\Ahoy.MessagePack.Thrift.csproj" />
+    <ProjectReference Include="..\Ahoy.Proto.MessagePack\Ahoy.Proto.MessagePack.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Protobuf Include="Protos.proto" GrpcServices="Server" />
+  </ItemGroup>
+
+</Project>

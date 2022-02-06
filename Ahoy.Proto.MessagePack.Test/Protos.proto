@@ -1,0 +1,9 @@
+﻿syntax = "proto3";
+package messages;
+option csharp_namespace = "Messages";
+
+message TestProto1 {
+	string Name = 1;
+	string Surname = 2;
+	int32 Age = 3;
+}
