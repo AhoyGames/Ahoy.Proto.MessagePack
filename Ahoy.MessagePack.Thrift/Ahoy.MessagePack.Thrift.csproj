@@ -5,7 +5,7 @@
     <LangVersion>9.0</LangVersion>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
 
-    <Authors>Deniz Piri</Authors>
+    <Authors>Ahoy Games team</Authors>
     <Company>Ahoy Games</Company>
     <PackageTags>messagepack thrift apache</PackageTags>
     <Description>Apache.Thrift formatter for MessagePack.</Description>

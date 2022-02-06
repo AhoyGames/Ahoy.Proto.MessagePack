@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
 
-    <Authors>Deniz Piri</Authors>
+    <Authors>Ahoy Games team</Authors>
     <Company>Ahoy Games</Company>
     <PackageTags>messagepack json newtonsoft</PackageTags>
     <Description>Newtonsoft.Json formatter for MessagePack.</Description>
