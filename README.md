@@ -102,8 +102,8 @@ public static class RoomActorMessages
 }
 ```
 
-## How to use it together with Ahoy.MessagePack.Thrift or Ahoy.MessagePack.Protobuf
-Install `Ahoy.MessagePack.Thrift` and/or `Ahoy.MessagePack.Protobuf` nuget packages.
+## How to use it together with Ahoy.MessagePack.Protobuf
+Install `Ahoy.MessagePack.Protobuf` nuget package.
 
 ```csharp
 actorSystem.Serialization().RegisterSerializer(
@@ -114,8 +114,6 @@ actorSystem.Serialization().RegisterSerializer(
       formatters: null,
       resolvers: new List<MessagePack.IFormatterResolver>()
       {
-          // Support Thrift structs within MessagePack structs.
-          ThriftResolver.Instance,
           // Support Protobuf structs within MessagePack structs.
           ProtobufResolver.Instance,
       },

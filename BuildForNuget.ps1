@@ -14,5 +14,4 @@ New-Item -path nugets -itemtype directory
 PackProj("Ahoy.MessagePack.NewtonsoftJson\Ahoy.MessagePack.NewtonsoftJson.csproj")
 PackProj("Ahoy.MessagePack.Protobuf\Ahoy.MessagePack.Protobuf.csproj")
 PackProj("Ahoy.MessagePack.SystemJson\Ahoy.MessagePack.SystemJson.csproj")
-PackProj("Ahoy.MessagePack.Thrift\Ahoy.MessagePack.Thrift.csproj")
 PackProj("Ahoy.Proto.MessagePack\Ahoy.Proto.MessagePack.csproj")

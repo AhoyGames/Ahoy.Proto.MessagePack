@@ -11,10 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ahoy.MessagePack.Protobuf",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ahoy.MessagePack.SystemJson", "Ahoy.MessagePack.SystemJson\Ahoy.MessagePack.SystemJson.csproj", "{29A720BD-D66C-4088-AF0F-91FFADAF990B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ahoy.MessagePack.Thrift", "Ahoy.MessagePack.Thrift\Ahoy.MessagePack.Thrift.csproj", "{225A10D1-49C1-4139-A451-FDA47171E4E2}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ahoy.MessagePack.Thrift.Test", "Ahoy.MessagePack.Thrift.Test\Ahoy.MessagePack.Thrift.Test.csproj", "{8161A680-2519-42B9-8E34-631724B310F4}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ahoy.Proto.MessagePack.Test", "Ahoy.Proto.MessagePack.Test\Ahoy.Proto.MessagePack.Test.csproj", "{EE2FC539-1DB1-4EE7-A6BF-0BD2E170D51C}"
 EndProject
 Global
@@ -39,14 +35,6 @@ Global
 		{29A720BD-D66C-4088-AF0F-91FFADAF990B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29A720BD-D66C-4088-AF0F-91FFADAF990B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29A720BD-D66C-4088-AF0F-91FFADAF990B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{225A10D1-49C1-4139-A451-FDA47171E4E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{225A10D1-49C1-4139-A451-FDA47171E4E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{225A10D1-49C1-4139-A451-FDA47171E4E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{225A10D1-49C1-4139-A451-FDA47171E4E2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8161A680-2519-42B9-8E34-631724B310F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8161A680-2519-42B9-8E34-631724B310F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8161A680-2519-42B9-8E34-631724B310F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8161A680-2519-42B9-8E34-631724B310F4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EE2FC539-1DB1-4EE7-A6BF-0BD2E170D51C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EE2FC539-1DB1-4EE7-A6BF-0BD2E170D51C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE2FC539-1DB1-4EE7-A6BF-0BD2E170D51C}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -18,7 +18,6 @@
     <ProjectReference Include="..\Ahoy.MessagePack.NewtonsoftJson\Ahoy.MessagePack.NewtonsoftJson.csproj" />
     <ProjectReference Include="..\Ahoy.MessagePack.SystemJson\Ahoy.MessagePack.SystemJson.csproj" />
     <ProjectReference Include="..\Ahoy.MessagePack.Protobuf\Ahoy.MessagePack.Protobuf.csproj" />
-    <ProjectReference Include="..\Ahoy.MessagePack.Thrift\Ahoy.MessagePack.Thrift.csproj" />
     <ProjectReference Include="..\Ahoy.Proto.MessagePack\Ahoy.Proto.MessagePack.csproj" />
   </ItemGroup>
   
