@@ -8,7 +8,7 @@
     <Company>Ahoy Games</Company>
     <PackageTags>messagepack protobuf</PackageTags>
     <Description>Google.Protobuf formatter for MessagePack.</Description>
-    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>

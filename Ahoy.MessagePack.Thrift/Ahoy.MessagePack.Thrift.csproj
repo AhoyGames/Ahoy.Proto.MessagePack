@@ -9,7 +9,7 @@
     <Company>Ahoy Games</Company>
     <PackageTags>messagepack thrift apache</PackageTags>
     <Description>Apache.Thrift formatter for MessagePack.</Description>
-    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>

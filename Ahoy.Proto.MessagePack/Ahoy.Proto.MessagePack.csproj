@@ -8,7 +8,7 @@
     <Company>Ahoy Games</Company>
     <PackageTags>messagepack actors actor model concurrency proto protoactor</PackageTags>
     <Description>MessagePack serializer library for Proto.Actor.</Description>
-    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
