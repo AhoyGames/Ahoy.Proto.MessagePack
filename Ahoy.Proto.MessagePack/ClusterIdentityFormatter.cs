@@ -24,8 +24,12 @@ namespace Ahoy.Proto.MessagePack
             if (reader.TryReadNil())
                 return null;
 
+            options.Security.DepthStep(ref reader);
+
             var kind = reader.ReadString();
             var identity = reader.ReadString();
+
+            reader.Depth--;
             return new ClusterIdentity()
             {
                 Kind = kind,

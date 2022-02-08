@@ -24,8 +24,12 @@ namespace Ahoy.Proto.MessagePack
             if (reader.TryReadNil())
                 return null;
 
+            options.Security.DepthStep(ref reader);
+
             var address = reader.ReadString();
             var id = reader.ReadString();
+
+            reader.Depth--;
             return new PID(address, id);
         }
     }

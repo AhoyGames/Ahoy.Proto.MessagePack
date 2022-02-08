@@ -8,6 +8,7 @@ using System;
 using System.Buffers;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 using IFormatterResolver = global::MessagePack.IFormatterResolver;
@@ -69,8 +70,6 @@ namespace Ahoy.Proto.MessagePack
             var finalResolvers = new List<IFormatterResolver>(20);
             if (resolvers != null)
                 finalResolvers.AddRange(resolvers);
-            // Support proto actor PID.
-            finalResolvers.Add(ProtoActorResolver.Instance);
             // Support immutable collections
             finalResolvers.Add(ImmutableCollectionResolver.Instance);
             finalResolvers.Add(NativeDateTimeResolver.Instance);
@@ -78,8 +77,14 @@ namespace Ahoy.Proto.MessagePack
             // Standard resolver
             finalResolvers.Add(StandardResolver.Instance);
 
+            var builtinFormatters = new List<IMessagePackFormatter>()
+            {
+                new PIDFormatter(),
+                new ClusterIdentityFormatter(),
+            };
+
             var resolver = CompositeResolver.Create(
-                formatters ?? new List<IMessagePackFormatter>(),
+                (formatters?.Union(builtinFormatters) ?? builtinFormatters).ToList(),
                 finalResolvers);
 
             serializerOptions = MessagePackSerializerOptions.Standard

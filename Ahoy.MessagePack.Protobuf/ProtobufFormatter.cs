@@ -14,9 +14,13 @@ namespace Ahoy.MessagePack.Protobuf
             if (reader.TryReadNil())
                 return null;
 
+            options.Security.DepthStep(ref reader);
+
             ReadOnlySequence<byte>? bytes = reader.ReadBytes();
             if (bytes.HasValue == false)
                 return null;
+
+            reader.Depth--;
             return parser.ParseFrom(bytes.Value);
         }
 

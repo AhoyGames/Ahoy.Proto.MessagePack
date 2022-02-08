@@ -26,7 +26,11 @@ namespace Ahoy.MessagePack.NewtonsoftJson
             if (reader.TryReadNil())
                 return default;
 
+            options.Security.DepthStep(ref reader);
+
             var jsonStr = reader.ReadString();
+
+            reader.Depth--;
             return JsonConvert.DeserializeObject<T>(jsonStr);
         }
     }
