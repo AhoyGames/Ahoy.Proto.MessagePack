@@ -7,9 +7,9 @@ namespace Ahoy.Proto.MessagePackTest
     public class TestMsgPack1
     {
         [Key(1)]
-        public string? Name { get; init; }
+        public string Name { get; init; }
         [Key(2)]
-        public string? Surname { get; init; }
+        public string Surname { get; init; }
         [Key(3)]
         public int Age { get; init; }
     }
@@ -18,9 +18,9 @@ namespace Ahoy.Proto.MessagePackTest
     public class TestMsgPack2
     {
         [Key(1)]
-        public string? Name { get; init; }
+        public string Name { get; init; }
         [Key(2)]
-        public string? Surname { get; init; }
+        public string Surname { get; init; }
         [Key(3)]
         public int Age { get; init; }
     }
@@ -29,9 +29,9 @@ namespace Ahoy.Proto.MessagePackTest
     public class TestMsgPack3
     {
         [Key(1)]
-        public string? Name { get; init; }
+        public string Name { get; init; }
         [Key(2)]
-        public string? Surname { get; init; }
+        public string Surname { get; init; }
         [Key(3)]
         public int Age { get; init; }
     }
@@ -43,9 +43,9 @@ namespace Ahoy.Proto.MessagePackTest
         public class TestMsgPack1
         {
             [Key(1)]
-            public string? Name { get; init; }
+            public string Name { get; init; }
             [Key(2)]
-            public string? Surname { get; init; }
+            public string Surname { get; init; }
             [Key(3)]
             public int Age { get; init; }
         }
@@ -58,9 +58,9 @@ namespace Ahoy.Proto.MessagePackTest
         public class TestMsgPack1
         {
             [Key(1)]
-            public string? Name { get; init; }
+            public string Name { get; init; }
             [Key(2)]
-            public string? Surname { get; init; }
+            public string Surname { get; init; }
             [Key(3)]
             public int Age { get; init; }
         }

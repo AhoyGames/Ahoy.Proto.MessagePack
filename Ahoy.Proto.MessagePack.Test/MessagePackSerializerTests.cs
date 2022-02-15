@@ -1,20 +1,20 @@
 ﻿using NUnit.Framework;
 using Ahoy.Proto.MessagePack;
 using System.Reflection;
+using Proto.Remote;
 
 namespace Ahoy.Proto.MessagePackTest
 {
     public class MessagePackSerializerTests
     {
-        private ProtoMessagePackSerializer serializerMessagePack;
+        private ISerializer serializerMessagePack;
 
         [SetUp]
         public void Setup()
         {
-            serializerMessagePack = new ProtoMessagePackSerializer(
-                formatters: null,
-                resolvers: null,
-                ProtoMessagePackSerializer.ScanAssemblyForTypes(Assembly.GetExecutingAssembly()));
+            ProtoMessagePackTypeRegistry registry = new();
+            registry.AddTypesFromAssembly(Assembly.GetExecutingAssembly());
+            serializerMessagePack = new ProtoMessagePackSerializer(registry);
         }
 
         [Test]
@@ -22,7 +22,7 @@ namespace Ahoy.Proto.MessagePackTest
         {
             Assert.IsTrue(serializerMessagePack.CanSerialize(new TestMsgPack1()));
             Assert.IsTrue(serializerMessagePack.CanSerialize(new TestMsgPack2()));
-            Assert.IsFalse(serializerMessagePack.CanSerialize(new TestMsgPack3()));
+            Assert.IsTrue(serializerMessagePack.CanSerialize(new TestMsgPack3()));
             Assert.IsFalse(serializerMessagePack.CanSerialize(6969));
         }
 
@@ -31,6 +31,7 @@ namespace Ahoy.Proto.MessagePackTest
         {
             Assert.AreEqual("1", serializerMessagePack.GetTypeName(new TestMsgPack1()));
             Assert.AreEqual("2", serializerMessagePack.GetTypeName(new TestMsgPack2()));
+            Assert.AreEqual("h52EAhrkW+w", serializerMessagePack.GetTypeName(new TestMsgPack3()));
         }
 
         [Test]

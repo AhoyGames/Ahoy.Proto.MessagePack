@@ -12,12 +12,12 @@ namespace Ahoy.Proto.MessagePackTest
         public class NestedProto1
         {
             [Key(1)]
-            public string? Name { get; set; }
+            public string Name { get; set; }
 
 #pragma warning disable MsgPack003 // Use MessagePackObjectAttribute
             [Key(2)]
             [MessagePackFormatter(typeof(ProtobufFormatter<TestProto1>))]
-            public TestProto1? Proto1 { get; set; }
+            public TestProto1 Proto1 { get; set; }
 #pragma warning restore MsgPack003 // Use MessagePackObjectAttribute
         }
 
@@ -25,11 +25,11 @@ namespace Ahoy.Proto.MessagePackTest
         public class NestedProto2
         {
             [Key(1)]
-            public string? Name { get; set; }
+            public string Name { get; set; }
 
 #pragma warning disable MsgPack003 // Use MessagePackObjectAttribute
             [Key(2)]
-            public TestProto1? Proto1 { get; set; }
+            public TestProto1 Proto1 { get; set; }
 #pragma warning restore MsgPack003 // Use MessagePackObjectAttribute
         }
 

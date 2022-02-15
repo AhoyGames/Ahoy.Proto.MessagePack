@@ -8,6 +8,7 @@ using System;
 using System.Buffers;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -16,55 +17,114 @@ using MessagePackSerializer = global::MessagePack.MessagePackSerializer;
 
 namespace Ahoy.Proto.MessagePack
 {
-    public class ProtoMessagePackSerializer : ISerializer
+    /// <summary>
+    /// Used for constructing type info maps required by the ProtoMessagePackSerializer.
+    /// </summary>
+    public class ProtoMessagePackTypeRegistry
     {
-        Dictionary<Type, string> typeToName = new Dictionary<Type, string>();
-        Dictionary<string, Type> nameToType = new Dictionary<string, Type>();
-        HashSet<int> knownIds = new HashSet<int>();
-        ConcurrentDictionary<Type, bool> canSerializeTypeMap = new ConcurrentDictionary<Type, bool>();
-        private MessagePackSerializerOptions serializerOptions;
-        private MethodInfo attachBytesMethod;
-        public delegate ByteString DelegateCreateByteString(ReadOnlyMemory<byte> bytes);
-        private DelegateCreateByteString attachBytesDelegate;
+        internal ImmutableDictionary<string, Type> typenameToType = ImmutableDictionary<string, Type>.Empty;
+        internal ImmutableDictionary<Type, string> typeToTypename = ImmutableDictionary<Type, string>.Empty;
 
-        public static Dictionary<int, Type> ScanAssemblyForTypes(
-            Assembly assembly)
+        /// <summary>
+        /// Scans the given assembly for types marked with MessagePackId or MessagePackObject.
+        /// </summary>
+        public void AddTypesFromAssembly(Assembly assembly)
         {
-            Dictionary<int, Type> types = new Dictionary<int, Type>();
             foreach (Type type in assembly.GetTypes())
             {
-                int? messagePackId = GetMessagePackId(type);
-                if (messagePackId.HasValue)
-                {
-                    // Check for duplicate.
-                    if (types.ContainsKey(messagePackId.Value))
-                        throw new Exception($"Duplicate MessagePackId {messagePackId.Value} - {types[messagePackId.Value]} and {type}");
+                // Skip the already scanned types, in case the AddTypesFromAssembly is called for the same assembly multiple times.
+                if (typeToTypename.ContainsKey(type))
+                    continue;
 
-                    types.Add(messagePackId.Value, type);
+                MessagePackIdAttribute idAttribute = type.GetCustomAttribute<MessagePackIdAttribute>();
+                if (idAttribute != null)
+                {
+                    int id = idAttribute.Id;
+                    MessagePackIdGroupAttribute idAttributeGroup = type.DeclaringType?.GetCustomAttribute<MessagePackIdGroupAttribute>();
+                    if (idAttributeGroup != null)
+                        id += idAttributeGroup.IdGroup;
+                    string typename = id.ToString();
+
+                    // Check for duplicate.
+                    if (typenameToType.ContainsKey(typename))
+                        throw new InvalidOperationException(
+                            $"Duplicate MessagePackId {typename} - {typenameToType[typename]} and {type}");
+
+                    AddType(typename, type);
+                    continue;
+                }
+                MessagePackObjectAttribute messagePackObjectAttribute = type.GetCustomAttribute<MessagePackObjectAttribute>();
+                if (messagePackObjectAttribute != null)
+                {
+                    // Use the AssemblyName+TypeName as the source typename.
+                    string typenameInputStr = $"{type.Assembly.GetName().Name} {type.FullName}";
+                    // Use Base64 encoded version of 64 bit stable hashcode of the typenameInputStr.
+                    long typenameHashcode = typenameInputStr.GetStableHashCode64();
+                    string typenameBase64 = Convert.ToBase64String(BitConverter.GetBytes(typenameHashcode));
+                    // Drop the '=' padding characters at the end.
+                    // NOTE: We simply use this as an identifier, and never convert to string back
+                    // from the Base64 representation, therefore it is safe to drop the padding chars.
+                    string typename = typenameBase64.TrimEnd('=');
+
+                    // Check for duplicate.
+                    if (typenameToType.ContainsKey(typename))
+                        throw new InvalidOperationException(
+                            $"Duplicate MessagePackObject type hashcode. {typename} - {typenameToType[typename]} and {type}. " +
+                            $"Either use MessagePackId attribute or simply try renaming one of the types.");
+
+                    AddType(typename, type);
+                    continue;
                 }
             }
-            return types;
         }
 
-        public ProtoMessagePackSerializer(
-            List<IMessagePackFormatter> formatters,
-            List<IFormatterResolver> resolvers,
-            params Dictionary<int, Type>[] idToTypes)
+        /// <summary>
+        /// Adds a type manually.
+        /// Typename is essentially the type identifier utilized for deserialization.
+        /// </summary>
+        public void AddType(string typename, Type type)
         {
+            // Check for duplicate.
+            if (typenameToType.ContainsKey(typename))
+                throw new InvalidOperationException($"Duplicate MessagePack typename {typename} - {typenameToType[typename]} and {type}");
+
+            typenameToType = typenameToType.Add(typename, type);
+            typeToTypename = typeToTypename.Add(type, typename);
+        }
+    }
+
+    public class ProtoMessagePackSerializer : ISerializer
+    {
+        private readonly Dictionary<string, Type> _typenameToType;
+        private readonly Dictionary<Type, string> _typeToTypename;
+        private readonly ConcurrentDictionary<Type, bool> _canSerializeTypeMap = new();
+        private readonly MessagePackSerializerOptions _serializerOptions;
+        private delegate ByteString DelegateCreateByteString(ReadOnlyMemory<byte> bytes);
+        private readonly DelegateCreateByteString _attachBytesDelegate;
+
+        public ProtoMessagePackSerializer(
+            ProtoMessagePackTypeRegistry typeRegistry,
+            List<IMessagePackFormatter> formatters = null,
+            List<IFormatterResolver> resolvers = null)
+        {
+            // Copy the data from type registry
+            _typenameToType = new(typeRegistry.typenameToType);
+            _typeToTypename = new(typeRegistry.typeToTypename);
+
             // Get the private static AttachBytes method to construct ByteString
             // instances without doing copies.
-            attachBytesMethod = typeof(ByteString).GetMethod(
+            var _attachBytesMethod = typeof(ByteString).GetMethod(
                 "AttachBytes",
                 BindingFlags.Static | BindingFlags.NonPublic,
                 null, CallingConventions.Standard,
                 new Type[] { typeof(ReadOnlyMemory<byte>) },
                 null);
-            if (attachBytesMethod == null)
+            if (_attachBytesMethod == null)
                 throw new InvalidOperationException("AttachBytes not found.");
-            attachBytesDelegate = (DelegateCreateByteString)Delegate.CreateDelegate(
+            _attachBytesDelegate = (DelegateCreateByteString)Delegate.CreateDelegate(
                 typeof(DelegateCreateByteString),
                 null,
-                attachBytesMethod);
+                _attachBytesMethod);
 
             // Construct the final resolver list.
             var finalResolvers = new List<IFormatterResolver>(20);
@@ -87,86 +147,50 @@ namespace Ahoy.Proto.MessagePack
                 (formatters?.Union(builtinFormatters) ?? builtinFormatters).ToList(),
                 finalResolvers);
 
-            serializerOptions = MessagePackSerializerOptions.Standard
+            _serializerOptions = MessagePackSerializerOptions.Standard
                 .WithResolver(resolver);
-
-            foreach (var idToType in idToTypes)
-            {
-                foreach (var item in idToType)
-                {
-                    var idStr = $"{item.Key}";
-
-                    if (nameToType.ContainsKey(idStr))
-                        throw new Exception($"Duplicate MessagePackId {idStr} - {nameToType[idStr]} and {item.Value}");
-
-                    knownIds.Add(item.Key);
-                    nameToType.Add(idStr, item.Value);
-                    typeToName.Add(item.Value, idStr);
-                }
-            }
         }
 
-        public bool CanSerialize(object obj)
+        bool ISerializer.CanSerialize(object obj)
         {
             var type = obj.GetType();
             bool canSerialize;
-            if (canSerializeTypeMap.TryGetValue(type, out canSerialize))
+            if (_canSerializeTypeMap.TryGetValue(type, out canSerialize))
                 return canSerialize;
 
             canSerialize = false;
             // If this serializer knows the given ID, then use it for serialization.
-            int? messagePackId = GetMessagePackId(obj.GetType());
-            if (messagePackId.HasValue &&
-                knownIds.Contains(messagePackId.Value))
+            if (_typeToTypename.ContainsKey(type))
                 canSerialize = true;
             // Cache this type.
-            canSerializeTypeMap[type] = canSerialize;
+            _canSerializeTypeMap[type] = canSerialize;
             return canSerialize;
         }
 
-        private static int? GetMessagePackId(Type type)
+        object ISerializer.Deserialize(ByteString bytes, string typeName)
         {
-            MessagePackIdAttribute idAttribute = type.GetCustomAttribute<MessagePackIdAttribute>();
-            if (idAttribute != null)
-            {
-                int id = idAttribute.Id;
-                MessagePackIdGroupAttribute idAttributeGroup = type.DeclaringType?.GetCustomAttribute<MessagePackIdGroupAttribute>();
-                if (idAttributeGroup != null)
-                    id += idAttributeGroup.IdGroup;
-                return id;
-            }
-            return null;
-        }
-
-        public object Deserialize(ByteString bytes, string typeName)
-        {
-            return Deserialize(bytes.ToByteArray(), typeName);
-        }
-
-        public object Deserialize(byte[] bytes, string typeName)
-        {
-            if (nameToType.TryGetValue(typeName, out var serializedType))
+            if (_typenameToType.TryGetValue(typeName, out var serializedType))
             {
                 return MessagePackSerializer.Deserialize(
                     serializedType,
-                    bytes,
-                    options: serializerOptions);
+                    bytes.ToByteArray(),
+                    options: _serializerOptions);
             }
-            throw new Exception($"Unknown typename: {typeName}");
+            throw new InvalidOperationException($"Unknown typename: {typeName}");
         }
 
-        public string GetTypeName(object message)
+        string ISerializer.GetTypeName(object message)
         {
-            return typeToName[message.GetType()];
+            return _typeToTypename[message.GetType()];
         }
 
-        public ByteString Serialize(object obj)
+        ByteString ISerializer.Serialize(object obj)
         {
             byte[] bytes = MessagePackSerializer.Serialize(
                 obj.GetType(),
                 obj,
-                options: serializerOptions);
-            return attachBytesDelegate(bytes);
+                options: _serializerOptions);
+            return _attachBytesDelegate(bytes);
         }
     }
 }

@@ -6,6 +6,7 @@ using Ahoy.MessagePack.Protobuf;
 using Proto;
 using Ahoy.Proto.MessagePack;
 using Proto.Cluster;
+using Proto.Remote;
 
 namespace Ahoy.Proto.MessagePackTest
 {
@@ -29,10 +30,9 @@ namespace Ahoy.Proto.MessagePackTest
         [Test]
         public void ProtoActorPIDSerialization()
         {
-            var serializer = new ProtoMessagePackSerializer(null, null, new Dictionary<int, Type>()
-            {
-                { 1, typeof(PIDMessagePack) },
-            });
+            ProtoMessagePackTypeRegistry registry = new();
+            registry.AddType("1", typeof(PIDMessagePack));
+            ISerializer serializer = new ProtoMessagePackSerializer(registry);
 
             var pack = new PIDMessagePack()
             {
@@ -55,10 +55,9 @@ namespace Ahoy.Proto.MessagePackTest
         [Test]
         public void NestedProtoActorPIDSerialization()
         {
-            var serializer = new ProtoMessagePackSerializer(null, null, new Dictionary<int, Type>()
-            {
-                { 1, typeof(PIDMessagePackNested) },
-            });
+            ProtoMessagePackTypeRegistry registry = new();
+            registry.AddType("1", typeof(PIDMessagePackNested));
+            ISerializer serializer = new ProtoMessagePackSerializer(registry);
 
             var pack = new PIDMessagePackNested()
             {

@@ -14,7 +14,7 @@ namespace Ahoy.Proto.MessagePackTest
     {
         public class JsonClass
         {
-            public string? Name { get; set; }
+            public string Name { get; set; }
         }
 
         public struct JsonStruct
@@ -28,7 +28,7 @@ namespace Ahoy.Proto.MessagePackTest
 #pragma warning disable MsgPack003 // Use MessagePackObjectAttribute
             [Key(0)]
             [MessagePackFormatter(typeof(NewtonsoftJsonFormatter<JsonClass>))]
-            public JsonClass? Json1 { get; set; }
+            public JsonClass Json1 { get; set; }
 
             [Key(1)]
             [MessagePackFormatter(typeof(NewtonsoftJsonFormatter<JsonStruct>))]
@@ -45,7 +45,7 @@ namespace Ahoy.Proto.MessagePackTest
 #pragma warning disable MsgPack003 // Use MessagePackObjectAttribute
             [Key(0)]
             [MessagePackFormatter(typeof(SystemTextJsonFormatter<JsonClass>))]
-            public JsonClass? Json1 { get; set; }
+            public JsonClass Json1 { get; set; }
 
             [Key(1)]
             [MessagePackFormatter(typeof(SystemTextJsonFormatter<JsonStruct>))]
