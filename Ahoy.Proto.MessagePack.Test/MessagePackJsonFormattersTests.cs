@@ -17,7 +17,7 @@ namespace Ahoy.Proto.MessagePackTest
             public string Name { get; set; }
         }
 
-        public struct JsonStruct
+        public class JsonStruct
         {
             public string Name { get; set; }
         }
@@ -54,7 +54,7 @@ namespace Ahoy.Proto.MessagePackTest
         }
 
         [JsonObject]
-        public struct GameServerConnectData
+        public class GameServerConnectData
         {
             public string Domain;
             public string UIDApp, UIDServer;
@@ -62,13 +62,13 @@ namespace Ahoy.Proto.MessagePackTest
         }
 
         [JsonObject]
-        public struct GameServerConnectState
+        public class GameServerConnectState
         {
             public bool TrafficEnabled = true;
         }
 
         [JsonObject]
-        public struct GameServerStats
+        public class GameServerStats
         {
             public long ConnectionCount;
 
