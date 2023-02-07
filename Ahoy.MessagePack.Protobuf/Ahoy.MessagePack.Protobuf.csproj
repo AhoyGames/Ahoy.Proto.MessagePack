@@ -12,9 +12,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Google.Protobuf" Version="3.20.0" />
-    <PackageReference Include="MessagePack" Version="2.3.85" />
-    <PackageReference Include="MinVer" Version="3.1.0">
+    <PackageReference Include="Google.Protobuf" Version="3.21.12" />
+    <PackageReference Include="MessagePack" Version="2.4.59" />
+    <PackageReference Include="MinVer" Version="4.3.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

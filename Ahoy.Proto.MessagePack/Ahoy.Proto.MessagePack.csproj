@@ -13,15 +13,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MessagePack" Version="2.3.85" />
-    <PackageReference Include="MessagePack.ImmutableCollection" Version="2.3.85" />
-    <PackageReference Include="MinVer" Version="3.1.0">
+    <PackageReference Include="MessagePack" Version="2.4.59" />
+    <PackageReference Include="MessagePack.ImmutableCollection" Version="2.4.59" />
+    <PackageReference Include="MinVer" Version="4.3.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Proto.Actor" Version="0.33.0" />
-    <PackageReference Include="Proto.Cluster" Version="0.33.0" />
-    <PackageReference Include="Proto.Remote" Version="0.33.0" />
+    <PackageReference Include="Proto.Actor" Version="1.1.0" />
+    <PackageReference Include="Proto.Cluster" Version="1.1.0" />
+    <PackageReference Include="Proto.Remote" Version="1.1.0" />
   </ItemGroup>
 
 </Project>
